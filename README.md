@@ -34,7 +34,7 @@ Wikipedia describes them as
 - Do not try to force them; bad things are supposed to happen, if done so. Keep in mind that design patterns are solutions **to** problems, not solutions **finding** problems; so don't overthink.
 - If used in a correct place in a correct manner, they can prove to be a savior; or else they can result in a horrible mess of a code.
 
-> Also note that the code samples below are in PHP-7, however this shouldn't stop you because the concepts are same anyways. Plus the **support for other languages is underway**.
+> Also note that the code samples below are in Java 8, however this shouldn't stop you because the concepts are same anyways. Plus the **support for other languages is underway**.
 
 Types of Design Patterns
 -----------------
@@ -73,50 +73,45 @@ Wikipedia says
 **Programmatic Example**
 
 First of all we have a door interface and the implementation
-```php
-interface Door
-{
-    public function getWidth(): float;
-    public function getHeight(): float;
+```java
+interface Door {
+    float getWidth();
+    float getHeight();
 }
 
-class WoodenDoor implements Door
-{
-    protected $width;
-    protected $height;
+public class WoodenDoor implements Door {
+    private float width;
+    private float height;
 
-    public function __construct(float $width, float $height)
-    {
-        $this->width = $width;
-        $this->height = $height;
+    public WoodenDoor(float width, float height) {
+        this.width = width;
+        this.height = height;
     }
 
-    public function getWidth(): float
-    {
-        return $this->width;
+    @Override
+    public float getWidth() {
+        return width;
     }
 
-    public function getHeight(): float
-    {
-        return $this->height;
+    @Override
+    public float getHeight() {
+        return height;
     }
 }
 ```
 Then we have our door factory that makes the door and returns it
-```php
-class DoorFactory
-{
-    public static function makeDoor($width, $height): Door
-    {
-        return new WoodenDoor($width, $height);
+```java
+public class DoorFactory {
+    public static Door makeDoor(float width, float height) {
+        return new WoodenDoor(width, height);
     }
 }
 ```
 And then it can be used as
-```php
-$door = DoorFactory::makeDoor(100, 200);
-echo 'Width: ' . $door->getWidth();
-echo 'Height: ' . $door->getHeight();
+```java
+Door door = DoorFactory.makeDoor(100, 200);
+System.out.println(door.getHeight());
+System.out.println(door.getWidth());
 ```
 
 **When to Use?**
@@ -795,7 +790,7 @@ class Developer implements Employee
     protected $salary;
     protected $name;
     protected $roles;
-    
+
     public function __construct(string $name, float $salary)
     {
         $this->name = $name;
@@ -1627,7 +1622,7 @@ Here is the simplest example of a chat room (i.e. mediator) with users (i.e. col
 First of all, we have the mediator i.e. the chat room
 
 ```php
-interface ChatRoomMediator 
+interface ChatRoomMediator
 {
     public function showMessage(User $user, string $message);
 }
