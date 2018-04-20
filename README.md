@@ -134,72 +134,63 @@ Wikipedia says
 
 Taking our hiring manager example above. First of all we have an interviewer interface and some implementations for it
 
-```php
-interface Interviewer
-{
-    public function askQuestions();
+```java
+public interface Interviewer {
+    void askQuestions();
 }
 
-class Developer implements Interviewer
-{
-    public function askQuestions()
-    {
-        echo 'Asking about design patterns!';
+public class Developer implements Interviewer {
+    @Override
+    public void askQuestions() {
+        System.out.println("Asking about design patterns!");
     }
 }
 
-class CommunityExecutive implements Interviewer
-{
-    public function askQuestions()
-    {
-        echo 'Asking about community building';
+public class CommunityExecutive implements Interviewer {
+    @Override
+    public void askQuestions() {
+        System.out.println("Asking about community building");
     }
 }
 ```
 
 Now let us create our `HiringManager`
 
-```php
-abstract class HiringManager
-{
+```java
+public abstract class HiringManager {
+    abstract protected Interviewer makeInterviewer();
 
-    // Factory method
-    abstract protected function makeInterviewer(): Interviewer;
-
-    public function takeInterview()
-    {
-        $interviewer = $this->makeInterviewer();
-        $interviewer->askQuestions();
+    public void takeInterview() {
+        Interviewer interviewer = makeInterviewer();
+        interviewer.askQuestions();
     }
 }
 
 ```
 Now any child can extend it and provide the required interviewer
-```php
-class DevelopmentManager extends HiringManager
-{
-    protected function makeInterviewer(): Interviewer
-    {
+```java
+public class DevelopmentManager extends HiringManager {
+    @Override
+    protected Interviewer makeInterviewer() {
         return new Developer();
     }
 }
 
-class MarketingManager extends HiringManager
-{
-    protected function makeInterviewer(): Interviewer
-    {
-        return new CommunityExecutive();
-    }
-}
+public class MarketingManager extends HiringManager {
+     @Override
+     protected Interviewer makeInterviewer() {
+         return new CommunityExecutive();
+     }
+ }
 ```
 and then it can be used as
 
-```php
-$devManager = new DevelopmentManager();
-$devManager->takeInterview(); // Output: Asking about design patterns
+```java
+HiringManager devManager = new DevelopmentManager();
+devManager.takeInterview(); // Output: Asking about design patterns
 
-$marketingManager = new MarketingManager();
-$marketingManager->takeInterview(); // Output: Asking about community building.
+HiringManager marketingManager = new MarketingManager();
+marketingManager.takeInterview(); // Output: Asking about community building.
 ```
 
 **When to use?**
