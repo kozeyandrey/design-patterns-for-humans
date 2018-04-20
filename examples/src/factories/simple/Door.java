@@ -1,6 +1,6 @@
 package factories.simple;
 
-interface Door {
+public interface Door {
     float getWidth();
     float getHeight();
 }
